@@ -25,7 +25,8 @@ pipeline {
 //#                bat "msbuild ${workspace}\\OktaJenkinsCI.sln /nologo /nr:false /p:platform=\"x64\" /p:configuration=\"release\" /t:clean"
 //#            }
 //#        }
-        
+   
+/* 
         stage('Increase version') {
                 steps {
                 echo "${env.BUILD_NUMBER}"
@@ -40,7 +41,8 @@ pipeline {
                     '''
             }
         }
-
+*/
+/*        
         stage('Build') {
             steps {
                 echo 'Building'
@@ -48,11 +50,30 @@ pipeline {
                 bat 'bin\\publish\\OktaJenkinsCI.exe'
             }
         }
-         stage('Test') {
+*/
+        
+        stage('Build') {
             steps {
-                echo 'Tesing'
+                echo 'Building'
+                bat 'dotnet build'
             }
         }
+        
+    stage('Running unit tests') {
+        steps {
+            bat "dotnet add ${workspace}\\OktaJenkinsCI.csproj package JUnitTestLogger --version 1.1.0"
+            bat "dotnet test ${workspace}\\OktaJenkinsCI.csproj --logger \"junit;LogFilePath=\"${WORKSPACE}\"/TestResults/1.0.0.\"${env.BUILD_NUMBER}\"/results.xml\" --configuration release --collect \"Code coverage\""
+            powershell '''
+                $destinationFolder = \"$env:WORKSPACE/TestResults\"
+                if (!(Test-Path -path $destinationFolder)) {New-Item $destinationFolder -Type Directory}
+                $file = Get-ChildItem -Path \"$env:WORKSPACE/path-to-Unit-testing-project/name-of-unit-test-project/TestResults/*/*.coverage\"
+                $file | Rename-Item -NewName testcoverage.coverage
+                $renamedFile = Get-ChildItem -Path \"$env:WORKSPACE/path-to-Unit-testing-project/name-of-unit-test-project/TestResults/*/*.coverage\"
+                Copy-Item $renamedFile -Destination $destinationFolder
+            '''            
+        }        
+    }
+        
          stage('Release') {
             steps {
                 echo 'Release'
