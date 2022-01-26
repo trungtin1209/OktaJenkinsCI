@@ -10,7 +10,7 @@ pipeline {
         
         stage ('Git Checkout') {
             steps {
-                git branch: 'main', credentialsId: 'trungtin1209', url: 'https://github.com/trungtin1209/OktaJenkinsCI.git'
+                git branch: 'master', credentialsId: 'trungtin1209', url: 'https://github.com/trungtin1209/OktaJenkinsCI.git'
             }
         }
         
