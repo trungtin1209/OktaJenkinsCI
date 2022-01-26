@@ -16,7 +16,7 @@ pipeline {
         
         stage('Restore packages') {
             steps {
-                bat "dotnet restore ${workspace}\\<path-to-solution>\\<solution-project-name>.sln"
+                bat "dotnet restore ${workspace}\\<path-to-solution>\\OktaJenkinsCI.sln"
             }
         }
 
