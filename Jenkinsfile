@@ -2,11 +2,24 @@ pipeline {
     agent any
 
     stages {
-        stage('Hello') {
+        stage('Clean workspace') {
             steps {
-                echo 'Hello World'
+                cleanWs()
             }
         }
+        
+        stage ('Git Checkout') {
+            steps {
+                git branch: 'main', credentialsId: 'trungtin1209', url: 'https://github.com/trungtin1209/Jenkinsfile.git'
+            }
+        }
+        
+        stage('Restore packages') {
+            steps {
+                bat "dotnet restore ${workspace}\\<path-to-solution>\\<solution-project-name>.sln"
+            }
+        }
+
         stage('Build') {
             steps {
                 echo 'Building'
