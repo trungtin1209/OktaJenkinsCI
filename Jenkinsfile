@@ -11,9 +11,7 @@ pipeline {
             steps {
                 echo 'Building'
                 bat 'dotnet publish --output bin/publish'
-                bat 'cd bin'
-                bat 'cd publish'
-                bat 'OktaJenkinsCI.exe'
+                bat 'bin\\publish\\OktaJenkinsCI.exe'
             }
         }
          stage('Test') {
