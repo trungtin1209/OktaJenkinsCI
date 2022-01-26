@@ -10,8 +10,8 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building'
-                bat 'dotnet publish --output bin\publish'
-                bat 'bin\publish\OktaJenkinsCI.exe'
+                bat 'dotnet publish --output bin/publish'
+                bat 'bin/publish/OktaJenkinsCI.exe'
             }
         }
          stage('Test') {
