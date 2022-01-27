@@ -1,10 +1,10 @@
 pipeline {
-    agent 
-    {
-        docker{
-            image 'mcr.microsoft.com/windows/server:ltsc2022'
-        }
-    }
+    agent {
+          docker {
+            image 'python:3.8-slim-buster'
+            args '-u 0:0 -v /tmp:/root/.cache'
+          }
+      }
 
     stages {
         stage('Clean workspace') {
